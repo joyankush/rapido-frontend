@@ -2,13 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Track Ride</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Track Ride - Gera mara</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #ffc107;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav a {
+      margin: 0 1rem;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+    }
+    main {
+      padding: 2rem;
+    }
+    #map {
+      height: 400px;
+      width: 100%;
+      margin-top: 1rem;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>Track Ride</h1>
+    <h1>Gera mara</h1>
     <nav>
       <a href="index.html">Home</a>
       <a href="login.html">Login</a>
@@ -19,15 +45,34 @@
   </header>
 
   <main>
-    <p>Your ride is on the way...</p>
-    <div id="map" class="map-placeholder"></div>
+    <h2>Your Live Location Map</h2>
+    <div id="map">Loading map...</div>
   </main>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    var map = L.map('map').setView([28.6139, 77.2090], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-    L.marker([28.6139, 77.2090]).addTo(map).bindPopup('Your ride is here!').openPopup();
+    window.onload = function () {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+
+          const map = L.map("map").setView([lat, lng], 13);
+          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 18,
+          }).addTo(map);
+
+          L.marker([lat, lng])
+            .addTo(map)
+            .bindPopup("You are here!")
+            .openPopup();
+        }, function () {
+          alert("Please allow location access.");
+        });
+      } else {
+        alert("Geolocation is not supported.");
+      }
+    };
   </script>
 </body>
 </html>
