@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Track Ride</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+  <header>
+    <h1>Track Ride</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="login.html">Login</a>
+      <a href="profile.html">Profile</a>
+      <a href="track.html">Track Ride</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <p>Your ride is on the way...</p>
+    <div id="map" class="map-placeholder"></div>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    var map = L.map('map').setView([28.6139, 77.2090], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    L.marker([28.6139, 77.2090]).addTo(map).bindPopup('Your ride is here!').openPopup();
+  </script>
+</body>
+</html>
